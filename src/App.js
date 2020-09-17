@@ -15,7 +15,7 @@ const App = () => {
 	return (
 		<View activePanel={activePanel} >
 			<Home id='home' go={go}/>
-			<NewPodcast id='new-podcast' go={go}/>
+			<NewPodcast id='new-podcast' go={go} currentSettings={{imageSrc: ''}}/>
 		</View>
 	);
 }
