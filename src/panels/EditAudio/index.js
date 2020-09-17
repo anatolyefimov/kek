@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { 
@@ -13,12 +13,24 @@ import {
     FormLayoutGroup, Group
 } from '@vkontakte/vkui';
 
+import throttle from 'utils/throttle';
+
 const EditAudio = ({ id }) => {
     const audioNode = useRef();
     const [waves, setWaves] = useState([]);
     const [currenTime, setCurrentTime] = useState(0);
     let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let source = audioCtx.createBufferSource();
+
+    let timeUpdate = (e) => {
+        setCurrentTime(e.target.currentTime);
+        console.log(e.target.currentTime)
+    }
+
+    timeUpdate = throttle(timeUpdate, 100000)
+    useEffect(() => {
+        audioNode.current.addEventListener('timeupdate', timeUpdate)
+    })
 
     const handleAudioChange = async (event) => {
         audioNode.current.pause();
@@ -49,10 +61,8 @@ const EditAudio = ({ id }) => {
         
         reader.readAsDataURL(file);
 
-        console.log(audioNode.current)
     }
-    console.log(waves)
-    console.log(currenTime)
+
     return (
         <Panel id={id}>
             <input type='file' accept='audio/*' onChange={handleAudioChange}/>
@@ -73,7 +83,7 @@ const EditAudio = ({ id }) => {
                     width: 10,
                     backgroundColor: 'red',
                     position: 'absolute',
-                    left: currenTime
+                    left: currenTime*3
                 }}></div>
                   {
                       waves.map((wave) => (
