@@ -5,6 +5,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Home from 'panels/Home';
 import NewPodcast from 'panels/NewPodcast'
 import EditAudio from './panels/EditAudio';
+import SliderTest from './panels/SliderTest'
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('edit-audio');
@@ -18,6 +19,7 @@ const App = () => {
 			<Home id='home' go={go}/>
 			<NewPodcast id='new-podcast' go={go} currentSettings={{imageSrc: '', audio: undefined}}/>
 			<EditAudio id='edit-audio' />
+			<SliderTest id='slider-test' go={go}/>
 		</View>
 	);
 }
