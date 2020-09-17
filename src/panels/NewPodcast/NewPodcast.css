@@ -1,21 +1,57 @@
-.cover-input {
+.cover-input, .NewPodcast__image {
     height: 72px;
     width: 72px;
-    padding: 0;
-    border: 0.5px solid rgba(0, 0, 0, 0.12);
-    background: #F2F3F5;
     border-radius: 10px;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    float: 'left'
 }
+
+.cover-input {
+    border: 0.5px solid rgba(0, 0, 0, 0.12);
+    background: #F2F3F5;
+}
+
+
+.NewPodcast__image {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
 
 .cover-input__icon {
     color: #3F8AE0;
 }
 
 .NewPodcast__name {
-    margin: 0 !important;
+}
+
+.NewPodcast__TopForm {
+    padding: 0;
+    flex-grow: 1;
+}
+
+.NewPodcast__TopForm .FormLayout__row {
+    padding: 0;
+}
+
+.NewPodcast__imageOverlay {
+    padding: 0;
+}
+
+.NewPodcast__checkboxes .FormLayout__row {
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+.NewPodcast__placeholder .Placeholder__in {
+    padding: 32px
+}
+
+.NewPodcast__privacyCell {
+    margin-top: 10px;
+}
+.NewPodcast__privacyCell .Cell__description {
+    margin-top: 4px;
 }
