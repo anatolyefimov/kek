@@ -10,7 +10,6 @@ import {
   Div,
   File,
   Input,
-  FormLayoutGroup, Group,
   Separator,
   Checkbox,
   Button,
@@ -89,6 +88,7 @@ const NewPodcast = ({id, go, currentSettings}) => {
               :
               <img className='NewPodcast__image'
                    src={imageSrc}
+                   alt='Обложкаф'
                    onClick={handleImageDelete}
               />
             }

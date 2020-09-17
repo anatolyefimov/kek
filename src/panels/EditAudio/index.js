@@ -4,23 +4,22 @@ import PropTypes from 'prop-types';
 import { 
 	Panel, 
     PanelHeader, 
-    PanelHeaderBack,
-    FormLayout,
-    Placeholder,
     Div,
-    File,
-    Input,
-    FormLayoutGroup, Group
+    Button
 } from '@vkontakte/vkui';
+import Icon24Play from '@vkontakte/icons/dist/24/play';
 
 import throttle from 'utils/throttle';
 
+
+
 const EditAudio = ({ id }) => {
     const audioNode = useRef();
+    const progressBar = useRef();
     const [waves, setWaves] = useState([]);
     const [currenTime, setCurrentTime] = useState(0);
-    let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let source = audioCtx.createBufferSource();
+    // let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // let source = audioCtx.createBufferSource();
 
     let timeUpdate = (e) => {
         setCurrentTime(e.target.currentTime);
@@ -51,7 +50,6 @@ const EditAudio = ({ id }) => {
                 newWave += audioBuffer.getChannelData(c)[i]
             }
             newWave /= audioBuffer.numberOfChannels;
-            console.log(newWave);
             newWave += 1;
             newWave /= 2;
 
@@ -65,40 +63,47 @@ const EditAudio = ({ id }) => {
 
     return (
         <Panel id={id}>
+            <PanelHeader>Редактирование</PanelHeader>
             <input type='file' accept='audio/*' onChange={handleAudioChange}/>
             <audio ref={audioNode} id='audio' controls onPlay={(e) => setCurrentTime(e.target.currenTime)} onRewind={(e) => setCurrentTime(e.target.currenTime)} onSeek={(e) => setCurrentTime(e.target.currenTime)}>
 
                 Your browser does not support the audio element.
             </audio>
             <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                height: 100,
-                backgroundColor: '#F2F3F5',
-                width: '500',
-                position: 'relative'
-            }}>
-                <div style={{
-                    height: '100%',
-                    width: 10,
-                    backgroundColor: 'red',
-                    position: 'absolute',
-                    left: currenTime*3
-                }}></div>
-                  {
-                      waves.map((wave) => (
-                        <div style={{
-                            height: 70*wave,
-                            width: 2,
-                            borderRadius: '50%',
-                            marginRight: 4,
-                            backgroundColor: 'blue'
-                        }}>
+                borderRadius: '10px',
 
-                        </div>
-                      ))
-                  }
-            </div>
+            }}>
+                <Div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    height: 96,
+                    backgroundColor: '#F2F3F5',
+                    position: 'relative',
+                    margin: '0 12px'
+                }}>
+                    <div style={{
+                        height: '100%',
+                        width: 1,
+                        backgroundColor: '#FF3347',
+                        position: 'absolute',
+                        left: currenTime*3
+                    }}></div>
+                    {
+                        waves.map((wave) => (
+                            <div style={{
+                                height: wave  < 0.5 ? 40*wave*0.5 : 40*wave,
+                                width: 2,
+                                borderRadius: '2px',
+                                backgroundColor: '#3F8AE0'
+                            }}>
+
+                            </div>
+                        ))
+                    }
+                </Div>
+                <Button><Icon24Play /></Button>
+            </div> 
 
         </Panel>
     )
