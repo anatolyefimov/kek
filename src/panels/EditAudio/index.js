@@ -7,23 +7,23 @@ import {
     Div,
     Button
 } from '@vkontakte/vkui';
+
 import Icon24Play from '@vkontakte/icons/dist/24/play';
+import Icon24Pause from '@vkontakte/icons/dist/24/pause';
 
 import throttle from 'utils/throttle';
-
-
 
 const EditAudio = ({ id }) => {
     const audioNode = useRef();
     const progressBar = useRef();
     const [waves, setWaves] = useState([]);
     const [currenTime, setCurrentTime] = useState(0);
+    const [play, setPlay] = useState(false)
     // let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     // let source = audioCtx.createBufferSource();
 
     let timeUpdate = (e) => {
         setCurrentTime(e.target.currentTime);
-        console.log(e.target.currentTime)
     }
 
     timeUpdate = throttle(timeUpdate, 100000)
@@ -61,6 +61,17 @@ const EditAudio = ({ id }) => {
 
     }
 
+    const handlePlay = () => {
+        if (play) {
+            audioNode.current.pause();
+        } else {
+            audioNode.current.play();
+        }
+
+        setPlay(!play)
+        
+    }
+
     return (
         <Panel id={id}>
             <PanelHeader>Редактирование</PanelHeader>
@@ -71,7 +82,8 @@ const EditAudio = ({ id }) => {
             </audio>
             <div style={{
                 borderRadius: '10px',
-
+                border: '0.5px solid rgba(0, 0, 0, 0.12)',
+                margin: '0 12px'
             }}>
                 <Div style={{
                     display: 'flex',
@@ -80,7 +92,8 @@ const EditAudio = ({ id }) => {
                     height: 96,
                     backgroundColor: '#F2F3F5',
                     position: 'relative',
-                    margin: '0 12px'
+                    borderRadius: '10px 10px 0 0'
+                    
                 }}>
                     <div style={{
                         height: '100%',
@@ -102,7 +115,20 @@ const EditAudio = ({ id }) => {
                         ))
                     }
                 </Div>
-                <Button><Icon24Play /></Button>
+                <div style={{
+                    padding: 8
+                }}>
+                    <Button
+                        style={{
+                            width: 44,
+                            height: 44
+                        }}
+                        onClick={handlePlay}
+                    >
+                        {play ? <Icon24Pause /> : <Icon24Play />}
+                    </Button>
+                </div>
+                    
             </div> 
 
         </Panel>

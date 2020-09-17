@@ -7,7 +7,7 @@ import NewPodcast from 'panels/NewPodcast'
 import EditAudio from './panels/EditAudio';
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('new-podcast');
+	const [activePanel, setActivePanel] = useState('edit-audio');
 
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
