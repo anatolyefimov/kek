@@ -13,6 +13,11 @@
     background: #F2F3F5;
 }
 
+.NewPodcast .Panel__in {
+    display: flex;
+    flex-direction: column;
+}
+
 
 .NewPodcast__image {
     margin-left: 12px;
@@ -45,13 +50,32 @@
     padding-top: 4px;
 }
 
+.NewPodcast__checkbox {
+    cursor: pointer;
+}
+
 .NewPodcast__placeholder .Placeholder__in {
-    padding: 32px
+    padding-top: 26px;
+    padding-bottom: 18px;
 }
 
 .NewPodcast__privacyCell {
     margin-top: 10px;
 }
+
 .NewPodcast__privacyCell .Cell__description {
     margin-top: 4px;
+}
+
+.NewPodcast__audioInfo .Cell__aside {
+    font-size: 13px;
+    color: #99A2AD;
+}
+
+.NewPodcast__audioInfo .Cell__in {
+    padding: 0;
+}
+
+.NewPodcast__audioInfo .Cell__children {
+    margin-left: 12px;
 }

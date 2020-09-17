@@ -7,7 +7,7 @@ import NewPodcast from 'panels/NewPodcast'
 import EditAudio from './panels/EditAudio';
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('edit-audio');
+	const [activePanel, setActivePanel] = useState('new-podcast');
 
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
@@ -16,7 +16,7 @@ const App = () => {
 	return (
 		<View activePanel={activePanel} >
 			<Home id='home' go={go}/>
-			<NewPodcast id='new-podcast' go={go} currentSettings={{imageSrc: ''}}/>
+			<NewPodcast id='new-podcast' go={go} currentSettings={{imageSrc: '', audio: undefined}}/>
 			<EditAudio id='edit-audio' />
 		</View>
 	);
