@@ -15,7 +15,7 @@ import { ReactComponent as BarChart } from 'img/bar-chart 1.svg'
 import throttle from 'utils/throttle';
 import convertDataURIToBinary from 'utils/convertDataURIToBinary'
 import trimAudio from 'api/trimAudio'
-
+import LoadingSinner from 'panels/LoadingSpinnerBlur';
 
 import './EditAudio.css';
 
@@ -27,8 +27,8 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
   const [play, setPlay] = useState(false);
   const [audiofile, setAudiofile] = useState();
   const [coords, setCoords] = useState([20, 60])
-  console.log('audioSrc')
-  // console.log(audioSrc)
+  const [isLoading, setIsLoading] = useState(false)
+
   let timeUpdate = (e) => {
       console.log(audioNode.current.currentTime  || audioNode.current.currentTime === 0)
     if (audioNode.current.currentTime  || audioNode.current.currentTime === 0) {
@@ -52,9 +52,11 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
   }
 
   const cutAudio = async (start, finish) => {
+      setIsLoading(true)
     let binary = convertDataURIToBinary(audioNode.current.src);
     var blob = new Blob([binary], {type: 'audio/mp3'});
-    await trimAudio(blob, 'audio.mp3', audioNode.current.duration*coords[0] / 100, audioNode.current.duration*coords[1] / 100, setCurrentSettings)
+    trimAudio(blob, 'audio.mp3', audioNode.current.duration*coords[0] / 100, audioNode.current.duration*coords[1] / 100, setCurrentSettings)
+        .then(() => setIsLoading(false));
 
 // create audio context
 //     const audioContext = getAudioContext();
@@ -86,6 +88,11 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
             <PanelHeader left={<PanelHeaderBack onClick={go} data-to='new-podcast'/>} >
                 Редактирование
             </PanelHeader>
+            {
+                isLoading && 
+                <LoadingSinner />
+            }
+            
             <audio ref={audioNode} id='audio' src={audioSrc}>
 
                 Your browser does not support the audio element.
