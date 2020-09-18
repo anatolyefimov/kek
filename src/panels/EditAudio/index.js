@@ -7,29 +7,37 @@ import {
     Div,
     Button
 } from '@vkontakte/vkui';
+
 import Icon24Play from '@vkontakte/icons/dist/24/play';
+import Icon24Pause from '@vkontakte/icons/dist/24/pause';
 
 import throttle from 'utils/throttle';
 
-
+import './EditAudio.css';
 
 const EditAudio = ({ id }) => {
     const audioNode = useRef();
     const progressBar = useRef();
     const [waves, setWaves] = useState([]);
     const [currenTime, setCurrentTime] = useState(0);
+    const [play, setPlay] = useState(false)
     // let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     // let source = audioCtx.createBufferSource();
 
     let timeUpdate = (e) => {
-        setCurrentTime(e.target.currentTime);
-        console.log(e.target.currentTime)
+        setCurrentTime(e.target.currentTime / audioNode.current.duration * 100);
     }
 
     timeUpdate = throttle(timeUpdate, 100000)
     useEffect(() => {
         audioNode.current.addEventListener('timeupdate', timeUpdate)
     })
+
+    const onRangeChange = (event) => {
+        audioNode.current.currentTime = audioNode.current.duration * event.target.value / 100;
+        console.log()
+        setCurrentTime(event.target.value)
+    }
 
     const handleAudioChange = async (event) => {
         audioNode.current.pause();
@@ -61,6 +69,17 @@ const EditAudio = ({ id }) => {
 
     }
 
+    const handlePlay = () => {
+        if (play) {
+            audioNode.current.pause();
+        } else {
+            audioNode.current.play();
+        }
+
+        setPlay(!play)
+        
+    }
+
     return (
         <Panel id={id}>
             <PanelHeader>Редактирование</PanelHeader>
@@ -71,8 +90,23 @@ const EditAudio = ({ id }) => {
             </audio>
             <div style={{
                 borderRadius: '10px',
-
+                border: '0.5px solid rgba(0, 0, 0, 0.12)',
+                margin: '0 12px',
+                position: 'relative'
             }}>
+                <input 
+                    className='slider_play' 
+                    type={'range'} 
+                    style={{
+                        position: 'absolute',
+                        top: -70,
+                        left: 0,
+                        zIndex: 100
+                    }}
+                    step='0.1'
+                    value={currenTime}
+                    onChange={onRangeChange}
+                />
                 <Div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -80,15 +114,10 @@ const EditAudio = ({ id }) => {
                     height: 96,
                     backgroundColor: '#F2F3F5',
                     position: 'relative',
-                    margin: '0 12px'
+                    borderRadius: '10px 10px 0 0'
+                    
                 }}>
-                    <div style={{
-                        height: '100%',
-                        width: 1,
-                        backgroundColor: '#FF3347',
-                        position: 'absolute',
-                        left: currenTime*3
-                    }}></div>
+                                
                     {
                         waves.map((wave) => (
                             <div style={{
@@ -102,7 +131,20 @@ const EditAudio = ({ id }) => {
                         ))
                     }
                 </Div>
-                <Button><Icon24Play /></Button>
+                <div style={{
+                    padding: 8
+                }}>
+                    <Button
+                        style={{
+                            width: 44,
+                            height: 44
+                        }}
+                        onClick={handlePlay}
+                    >
+                        {play ? <Icon24Pause /> : <Icon24Play />}
+                    </Button>
+                </div>
+                    
             </div> 
 
         </Panel>
