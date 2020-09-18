@@ -1,27 +1,29 @@
 {
   "files": {
-    "main.css": "/kek/static/css/main.d594b35a.chunk.css",
-    "main.js": "/kek/static/js/main.c26119bb.chunk.js",
-    "main.js.map": "/kek/static/js/main.c26119bb.chunk.js.map",
+    "main.css": "/kek/static/css/main.9524afe6.chunk.css",
+    "main.js": "/kek/static/js/main.f80296e5.chunk.js",
+    "main.js.map": "/kek/static/js/main.f80296e5.chunk.js.map",
     "runtime-main.js": "/kek/static/js/runtime-main.5ba50766.js",
     "runtime-main.js.map": "/kek/static/js/runtime-main.5ba50766.js.map",
     "static/css/2.b45f4e43.chunk.css": "/kek/static/css/2.b45f4e43.chunk.css",
-    "static/js/2.58c160a0.chunk.js": "/kek/static/js/2.58c160a0.chunk.js",
-    "static/js/2.58c160a0.chunk.js.map": "/kek/static/js/2.58c160a0.chunk.js.map",
+    "static/js/2.f673ed87.chunk.js": "/kek/static/js/2.f673ed87.chunk.js",
+    "static/js/2.f673ed87.chunk.js.map": "/kek/static/js/2.f673ed87.chunk.js.map",
     "index.html": "/kek/index.html",
-    "precache-manifest.2f6d274bb5be73904a690b7952784b18.js": "/kek/precache-manifest.2f6d274bb5be73904a690b7952784b18.js",
+    "precache-manifest.26b8c8c86f24ccad856ee4476f598638.js": "/kek/precache-manifest.26b8c8c86f24ccad856ee4476f598638.js",
     "service-worker.js": "/kek/service-worker.js",
     "static/css/2.b45f4e43.chunk.css.map": "/kek/static/css/2.b45f4e43.chunk.css.map",
-    "static/css/main.d594b35a.chunk.css.map": "/kek/static/css/main.d594b35a.chunk.css.map",
-    "static/js/2.58c160a0.chunk.js.LICENSE.txt": "/kek/static/js/2.58c160a0.chunk.js.LICENSE.txt",
+    "static/css/main.9524afe6.chunk.css.map": "/kek/static/css/main.9524afe6.chunk.css.map",
+    "static/js/2.f673ed87.chunk.js.LICENSE.txt": "/kek/static/js/2.f673ed87.chunk.js.LICENSE.txt",
+    "static/media/bar-chart 1.2b3d202e.svg": "/kek/static/media/bar-chart 1.2b3d202e.svg",
     "static/media/EditAudio.css": "/kek/static/media/double-slider-thumb.918c2155.svg",
+    "static/media/scissors 1.a92a9b83.svg": "/kek/static/media/scissors 1.a92a9b83.svg",
     "static/media/style.css": "/kek/static/media/slider_thumb.9fd923f1.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.5ba50766.js",
     "static/css/2.b45f4e43.chunk.css",
-    "static/js/2.58c160a0.chunk.js",
-    "static/css/main.d594b35a.chunk.css",
-    "static/js/main.c26119bb.chunk.js"
+    "static/js/2.f673ed87.chunk.js",
+    "static/css/main.9524afe6.chunk.css",
+    "static/js/main.f80296e5.chunk.js"
   ]
 }
