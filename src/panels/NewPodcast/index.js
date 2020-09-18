@@ -65,7 +65,7 @@ const NewPodcast = ({id, go, setCurrentSettings, currentSettings}) => {
     const duration = MMSSfromSeconds(audioBuffer.duration)
     let reader = new FileReader();
     reader.onload = (event) => {
-        
+        console.log(reader.result)
         setCurrentSettings(prevSettings =>({
             ...prevSettings,
             audioDurationString: duration,
@@ -75,7 +75,7 @@ const NewPodcast = ({id, go, setCurrentSettings, currentSettings}) => {
     }
     reader.readAsDataURL(file);
     console.log(file);
-    
+
   }
 
 
@@ -195,7 +195,7 @@ const NewPodcast = ({id, go, setCurrentSettings, currentSettings}) => {
       </Div>
       <Div style={{flexGrow: 1, padding: 0}}></Div>
       <Div>
-        <Button disabled={!currentSettings.imgSrc || !currentSettings.podcastName || !currentSettings.podcastDescription || !currentSettings.audio} 
+        <Button disabled={!currentSettings.imgSrc || !currentSettings.podcastName || !currentSettings.podcastDescription || !currentSettings.audio}
                 size="xl"
                 mode="primary">Далее</Button>
       </Div>

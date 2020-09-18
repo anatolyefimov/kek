@@ -8,9 +8,10 @@ import EditAudio from './panels/EditAudio';
 import SliderTest from './panels/SliderTest'
 import DoubleSliderTest from './panels/DoubleSliderTest'
 import AddMusic from './panels/AddMusic'
+import FinalPreview from "./panels/FinalPreview";
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('add-music');
+	const [activePanel, setActivePanel] = useState('final-preview');
 	const [currentSettings, setCurrentSettings] = useState({
 		audioName: 'Михаил Круг.mp3',
 		audioDurationString: '59:41',
@@ -29,10 +30,11 @@ const App = () => {
 				currentSettings={currentSettings}
 				setCurrentSettings={setCurrentSettings}
 			/>
-			<EditAudio id='edit-audio' audioSrc={currentSettings.audio} waves={currentSettings.waves}/>
+			<EditAudio id='edit-audio' audioSrc={currentSettings.audio} waves={currentSettings.waves} setCurrentSettings={setCurrentSettings}/>
 			<SliderTest id='slider-test' go={go}/>
 			<DoubleSliderTest id='double-slider-test' go={go}/>
 			<AddMusic id='add-music' go={go}/>
+			<FinalPreview id={'final-preview'} go={go}/>
 		</View>
 	);
 }
