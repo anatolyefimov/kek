@@ -27,11 +27,8 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
   const [play, setPlay] = useState(false);
   const [audiofile, setAudiofile] = useState();
   const [coords, setCoords] = useState([20, 60])
-<<<<<<< HEAD
   const [isLoading, setIsLoading] = useState(false)
 
-=======
->>>>>>> 9459682af372e745d7bf7a07378b6178296b3ce9
   let timeUpdate = (e) => {
       // console.log(audioNode.current.currentTime  || audioNode.current.currentTime === 0)
     if (audioNode.current.currentTime  || audioNode.current.currentTime === 0) {
