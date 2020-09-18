@@ -26,12 +26,12 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
   const [currenTime, setCurrentTime] = useState(0);
   const [play, setPlay] = useState(false);
   const [audiofile, setAudiofile] = useState();
+  const [coords, setCoords] = useState([20, 60])
   console.log('audioSrc')
   // console.log(audioSrc)
   let timeUpdate = (e) => {
       console.log(audioNode.current.currentTime  || audioNode.current.currentTime === 0)
     if (audioNode.current.currentTime  || audioNode.current.currentTime === 0) {
-        console.log(audioNode.current.duration)
         setCurrentTime(e.target.currentTime / audioNode.current.duration * 100);
     }
   }
@@ -45,7 +45,6 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
 
   const onRangeChange = (event) => {
       if (audioNode.current.currentTime || audioNode.current.currentTime === 0) {
-        console.log(audioNode.current.duration)
         audioNode.current.currentTime = audioNode.current.duration * event.target.value / 100;
 
         setCurrentTime(event.target.value)
@@ -55,7 +54,7 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
   const cutAudio = async (start, finish) => {
     let binary = convertDataURIToBinary(audioNode.current.src);
     var blob = new Blob([binary], {type: 'audio/mp3'});
-    await trimAudio(blob, 'audio.mp3', 5, 145, setCurrentSettings)
+    await trimAudio(blob, 'audio.mp3', audioNode.current.duration*coords[0] / 100, audioNode.current.duration*coords[1] / 100, setCurrentSettings)
 
 // create audio context
 //     const audioContext = getAudioContext();
@@ -97,7 +96,12 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
                 margin: '0 12px',
                 position: 'relative'
             }}>
-                <Nouislider className={'double-slider'} range={{ min: 0, max: 100 }} start={[20, 80]} connect />
+                <Nouislider 
+                    className={'double-slider'} 
+                    range={{ min: 0, max: 100 }} 
+                    start={coords} connect
+                    onSlide={(render, handle, value, un, percent) => { setCoords(value)}}
+                />
                 <input 
                     className='slider_play' 
                     type={'range'} 
