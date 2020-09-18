@@ -10,7 +10,7 @@ import DoubleSliderTest from './panels/DoubleSliderTest'
 import AddMusic from './panels/AddMusic'
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('add-music');
+	const [activePanel, setActivePanel] = useState('home');
 	const [currentSettings, setCurrentSettings] = useState({
 		audioName: 'Михаил Круг.mp3',
 		audioDurationString: '59:41',
@@ -29,7 +29,7 @@ const App = () => {
 				currentSettings={currentSettings}
 				setCurrentSettings={setCurrentSettings}
 			/>
-			<EditAudio id='edit-audio' audioSrc={currentSettings.audio} waves={currentSettings.waves}/>
+			<EditAudio id='edit-audio' audioSrc={currentSettings.audio} waves={currentSettings.waves} go={go}/>
 			<SliderTest id='slider-test' go={go}/>
 			<DoubleSliderTest id='double-slider-test' go={go}/>
 			<AddMusic id='add-music' go={go}/>

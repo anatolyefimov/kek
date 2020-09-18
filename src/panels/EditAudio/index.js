@@ -13,7 +13,10 @@ import {
 
 import Icon24Play from '@vkontakte/icons/dist/24/play';
 import Icon24Pause from '@vkontakte/icons/dist/24/pause';
+import Icon24ArrowUturnLeftOutline from '@vkontakte/icons/dist/24/arrow_uturn_left_outline';
+import Icon20MusicOutline from '@vkontakte/icons/dist/20/music_outline';
 import { ReactComponent as Scissors } from 'img/scissors 1.svg'
+import { ReactComponent as BarChart } from 'img/bar-chart 1.svg'
 
 import throttle from 'utils/throttle';
 import convertDataURIToBinary from 'utils/convertDataURIToBinary'
@@ -134,9 +137,36 @@ const EditAudio = ({ id, audioSrc, waves, go }) => {
                     </Button>
                     <Button
                         className='toolbar__button'
-                        onClick={cutAudio}
+                        //onClick={cutAudio}
+                        mode='secondary'
                     >
-                        <Scissors color='white' fill='white' style={{color:'white'}}/>
+                        <Scissors/>
+                    </Button>
+                    <Button
+                        className='toolbar__button'
+                        mode='secondary'
+                    >
+                        <Icon24ArrowUturnLeftOutline />
+                    </Button>
+                    <Button
+                        className='toolbar__button'
+                        mode='secondary'
+                        onClick={go}
+                        data-to='add-music'
+                    >
+                        <Icon20MusicOutline width={24} height={24}/>
+                    </Button>
+                    <Button
+                        className='toolbar__button'
+                        mode='secondary'
+                    >
+                        <BarChart style={{transform: 'rotate(270deg)'}}/>
+                    </Button>
+                    <Button
+                        className='toolbar__button'
+                        mode='secondary'
+                    >
+                        <BarChart />
                     </Button>
                 </div>
                     
