@@ -1,0 +1,22 @@
+.FinalPreview__imageOverlay {
+    padding: 0;
+    display: flex;
+    margin-top: 17px;
+}
+
+.Preview__timecodeCell .Cell__children {
+    margin-left: 6px;
+}
+
+.Preview__timecodeCell .Cell__in {
+    padding: 0;
+}
+
+.Preview__timecodeCell {
+    font-size: 17px;
+}
+
+.FinalPreview .Panel__in {
+    display: flex;
+    flex-direction: column;
+}
