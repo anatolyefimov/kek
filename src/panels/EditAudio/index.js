@@ -1,15 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
 
-import { 
-	Panel, 
-    PanelHeader, 
-    PanelHeaderBack,
-    Div,
-    Button
-} from '@vkontakte/vkui';
+import { Button, Div, Panel, PanelHeader, PanelHeaderBack } from '@vkontakte/vkui';
 
 import Icon24Play from '@vkontakte/icons/dist/24/play';
 import Icon24Pause from '@vkontakte/icons/dist/24/pause';
@@ -20,58 +14,71 @@ import { ReactComponent as BarChart } from 'img/bar-chart 1.svg'
 
 import throttle from 'utils/throttle';
 import convertDataURIToBinary from 'utils/convertDataURIToBinary'
-import trimAudio from 'api/trimAudio' 
+import trimAudio from 'api/trimAudio'
 
 
 import './EditAudio.css';
 
-const EditAudio = ({ id, audioSrc, waves, go }) => {
-    const audioNode = useRef();
-    const progressBar = useRef();
-    const [currenTime, setCurrentTime] = useState(0);
-    const [play, setPlay] = useState(false);
-    const [audiofile, setAudiofile] = useState();
-    // let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    // let source = audioCtx.createBufferSource();
 
-    let timeUpdate = (e) => {
-        console.log(audioNode.current.duration )
+const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
+  const audioNode = useRef();
+  const progressBar = useRef();
+  const [currenTime, setCurrentTime] = useState(0);
+  const [play, setPlay] = useState(false);
+  const [audiofile, setAudiofile] = useState();
+  console.log('audioSrc')
+  // console.log(audioSrc)
+  let timeUpdate = (e) => {
+    if (audioNode.current.currenTime) {
+        console.log(audioNode.current.duration)
         setCurrentTime(e.target.currentTime / audioNode.current.duration * 100);
     }
+  }
 
-    
 
-    timeUpdate = throttle(timeUpdate, 100000)
-    useEffect(() => {
-        audioNode.current.addEventListener('timeupdate', timeUpdate)
-    })
 
-    const onRangeChange = (event) => {
+  timeUpdate = throttle(timeUpdate, 100000)
+  useEffect(() => {
+    audioNode.current.addEventListener('timeupdate', timeUpdate)
+  })
+
+  const onRangeChange = (event) => {
+      if (audioNode.current.currenTime) {
         console.log(audioNode.current.duration)
         audioNode.current.currentTime = audioNode.current.duration * event.target.value / 100;
 
         setCurrentTime(event.target.value)
-    }
+      }
+  }
 
-    const cutAudio = async (start, finish) => {
-        let binary = convertDataURIToBinary(audioNode.current.src);
-        var blob=new Blob([binary], {type : 'audio/mp3'});
-        audioNode.current.src = await trimAudio(blob, 'audio.mp3', 5, 10)
-        audioNode.current.pause();
-        audioNode.current.currenTime = 0;
+  const cutAudio = async (start, finish) => {
+    let binary = convertDataURIToBinary(audioNode.current.src);
+    var blob = new Blob([binary], {type: 'audio/mp3'});
+    await trimAudio(blob, 'audio.mp3', 5, 145, setCurrentSettings)
 
-        
-    }
+// create audio context
+//     const audioContext = getAudioContext();
+// create audioBuffer (decode audio file)
+//     const audioBuffer = await audioContext.decodeAudioData(response.data);
+// create audio source
+//     const source = audioContext.createBufferSource();
+//     source.buffer = audioBuffer;
+//     source.connect(audioContext.destination);
 
-    const handlePlay = () => {
+// play audio
+//     source.start();
+
+
+  }
+
+  const handlePlay = () => {
         if (play) {
-            audioNode.current.pause();
-        } else {
-            audioNode.current.play();
+        audioNode.current.pause();
         }
-
+        else {
+        audioNode.current.play();
+        }
         setPlay(!play)
-        
     }
 
     return (
@@ -151,7 +158,7 @@ const EditAudio = ({ id, audioSrc, waves, go }) => {
                     <Button
                         className='toolbar__button'
                         mode='secondary'
-                        onClick={go}
+                        onClick={e => {setPlay(false);go(e)}}
                         data-to='add-music'
                     >
                         <Icon20MusicOutline width={24} height={24}/>
@@ -178,7 +185,7 @@ const EditAudio = ({ id, audioSrc, waves, go }) => {
 
 
 EditAudio.propTypes = {
-    id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired
 };
 
 export default EditAudio;
