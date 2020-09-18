@@ -27,10 +27,8 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
   const [play, setPlay] = useState(false);
   const [audiofile, setAudiofile] = useState();
   const [coords, setCoords] = useState([20, 60])
-  console.log('audioSrc')
-  // console.log(audioSrc)
   let timeUpdate = (e) => {
-      console.log(audioNode.current.currentTime  || audioNode.current.currentTime === 0)
+      // console.log(audioNode.current.currentTime  || audioNode.current.currentTime === 0)
     if (audioNode.current.currentTime  || audioNode.current.currentTime === 0) {
         setCurrentTime(e.target.currentTime / audioNode.current.duration * 100);
     }
@@ -71,6 +69,19 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
 
   }
 
+  const fadeIn = async (start, finish) => {
+    let binary = convertDataURIToBinary(audioNode.current.src);
+    var blob = new Blob([binary], {type: 'audio/mp3'});
+    await fadeIn(blob, 'audio.mp3', audioNode.current.duration*coords[0] / 100, audioNode.current.duration*coords[1] / 100, setCurrentSettings)
+  }
+
+
+  const fadeOut = async (start, finish) => {
+    let binary = convertDataURIToBinary(audioNode.current.src);
+    var blob = new Blob([binary], {type: 'audio/mp3'});
+    await fadeOut(blob, 'audio.mp3', audioNode.current.duration*coords[0] / 100, audioNode.current.duration*coords[1] / 100, setCurrentSettings)
+  }
+
   const handlePlay = () => {
         if (play) {
         audioNode.current.pause();
@@ -96,15 +107,15 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
                 margin: '0 12px',
                 position: 'relative'
             }}>
-                <Nouislider 
-                    className={'double-slider'} 
-                    range={{ min: 0, max: 100 }} 
+                <Nouislider
+                    className={'double-slider'}
+                    range={{ min: 0, max: 100 }}
                     start={coords} connect
                     onSlide={(render, handle, value, un, percent) => { setCoords(value)}}
                 />
-                <input 
-                    className='slider_play' 
-                    type={'range'} 
+                <input
+                    className='slider_play'
+                    type={'range'}
                     style={{
                         position: 'absolute',
                         top: -70,
@@ -123,9 +134,9 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
                     backgroundColor: '#F2F3F5',
                     position: 'relative',
                     borderRadius: '10px 10px 0 0',
-                    
+
                 }}>
-                                
+
                     {
                         waves.map((wave) => (
                             <div style={{
@@ -133,7 +144,7 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
                                 width: 2,
                                 borderRadius: '2px',
                                 backgroundColor: '#3F8AE0',
-                                
+
                             }}>
 
                             </div>
@@ -171,18 +182,20 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
                     <Button
                         className='toolbar__button'
                         mode='secondary'
+                        onClick={fadeIn}
                     >
                         <BarChart style={{transform: 'rotate(270deg)'}}/>
                     </Button>
                     <Button
                         className='toolbar__button'
                         mode='secondary'
+                        onClick={fadeOut}
                     >
                         <BarChart />
                     </Button>
                 </div>
-                    
-            </div> 
+
+            </div>
 
         </Panel>
     )
