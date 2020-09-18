@@ -34,8 +34,6 @@ const NewPodcast = ({id, go, setCurrentSettings, currentSettings}) => {
       setCurrentSettings((prevSettings) => ({...prevSettings, imgSrc: reader.result}));
     }
     reader.readAsDataURL(event.target.files[0]);
-
-
   }
 
   const handleImageDelete = () => {

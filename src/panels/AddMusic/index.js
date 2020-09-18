@@ -13,12 +13,21 @@ import Icon56AddCircleOutline from '@vkontakte/icons/dist/56/add_circle_outline'
 
 import './style.css'
 import Icon24MoreHorizontal from "@vkontakte/icons/dist/24/more_horizontal";
+import trimAudio, { addMusic } from "../../api/trimAudio";
+import convertDataURIToBinary from "../../utils/convertDataURIToBinary";
 
-const AddMusic = ({id, go}) => {
+const AddMusic = ({id, go, currentSettings, setCurrentSettings, setActivePanel}) => {
   const [search, setSearch] = useState('')
 
   const onChange = (e) => {
     setSearch(e.target.value);
+  }
+
+  const mixMusic = async (musicName) => {
+    let binary = convertDataURIToBinary(currentSettings.audio);
+    var blob = new Blob([binary], {type: 'audio/mp3'});
+    await addMusic(blob, 'audio.mp3', musicName, setCurrentSettings)
+    setActivePanel('edit-audio')
   }
 
   return <Panel id={id}>
@@ -30,6 +39,9 @@ const AddMusic = ({id, go}) => {
       asideContent={<div style={{display: 'flex'}}><div style={{marginRight: '16px', color: '#818C99', fontSize: '16px'}}>3:53</div><Icon24MoreHorizontal style={{color: '#3F8AE0'}} /></div>}
       className={'AddMusic__cell'}
       description='Верка Сердючка'
+      onClick={() =>
+        mixMusic('verka')
+      }
       before={<img style={{height: '48px', width: '48px', borderRadius: '4px'}}
                    src={'https://avatars.yandex.net/get-music-content/49707/fb3db1be.a.1012220-1/200x200'}/>}>Всё
       будет хорошо</Cell>
@@ -38,6 +50,7 @@ const AddMusic = ({id, go}) => {
       asideContent={<div style={{display: 'flex'}}><div style={{marginRight: '16px', color: '#818C99', fontSize: '16px'}}>3:05</div><Icon24MoreHorizontal style={{color: '#3F8AE0'}} /></div>}
       className={'AddMusic__cell2'}
       description='Юрий Никулин'
+      onClick={() => mixMusic('rabbits')}
       before={<img style={{height: '48px', width: '48px', borderRadius: '4px'}}
                    src={'https://drinking-songs.ru/wp-content/uploads/2017/09/tekst-pesni-pro-zajcev.jpg'}/>}>Песня про зайцев</Cell>
   </Panel>
