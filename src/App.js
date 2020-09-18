@@ -6,9 +6,10 @@ import Home from 'panels/Home';
 import NewPodcast from 'panels/NewPodcast'
 import EditAudio from './panels/EditAudio';
 import SliderTest from './panels/SliderTest'
+import DoubleSliderTest from './panels/DoubleSliderTest'
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('slider-test');
+	const [activePanel, setActivePanel] = useState('double-slider-test');
 
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
@@ -20,6 +21,7 @@ const App = () => {
 			<NewPodcast id='new-podcast' go={go} currentSettings={{imageSrc: '', audio: undefined}}/>
 			<EditAudio id='edit-audio' />
 			<SliderTest id='slider-test' go={go}/>
+			<DoubleSliderTest id='double-slider-test' go={go}/>
 		</View>
 	);
 }
