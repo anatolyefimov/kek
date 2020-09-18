@@ -23,36 +23,57 @@ import Icon56GalleryOutline from '@vkontakte/icons/dist/56/gallery_outline';
 import './NewPodcast.css'
 import { Icon28PodcastOutline } from "@vkontakte/icons";
 
-const NewPodcast = ({id, go, currentSettings}) => {
-  const [imageSrc, setImageSrc] = useState(currentSettings.imageSrc);
-  const [audio, setAudio] = useState(false)
-  const [audioName, setAudioName] = useState('Валентин Стрыкало.mp3')
-  const [audioDurationString, setAudioDurationString] = useState('59:16')
-  const [podcastName, setPodcastName] = useState('')
-  const [podcastDescription, setPodcastDescription] = useState('')
+const NewPodcast = ({id, go, setCurrentSettings, currentSettings}) => {
 
   const handleImageChange = event => {
     const reader = new FileReader();
-    reader.onload = () => setImageSrc(reader.result);
+    reader.onload = () => reader.result;
     reader.readAsDataURL(event.target.files[0]);
   }
 
   const handleImageDelete = () => {
-    setImageSrc(null)
+    setCurrentSettings(prevSettings => ({
+        ...prevSettings,
+        imgSrc: null
+    }))
   }
 
   const handleAudioUpload = async (event) => {
     const file = event.target.files[0];
     console.log(file)
+
     const arrayBuffer = await file.arrayBuffer();
     const audioContext = new AudioContext();
+    let newWaves = [];
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    for (let i = 0; i < audioBuffer.length; i += Math.floor(audioBuffer.length / 100)) {
+        let newWave = 0;
+        for (let c = 0; c < audioBuffer.numberOfChannels; ++c) {
+            newWave += audioBuffer.getChannelData(c)[i]
+        }
+        newWave /= audioBuffer.numberOfChannels;
+        newWave += 1;
+        newWave /= 2;
+
+        newWaves.push(newWave);
+    }
+    setCurrentSettings(prevSettings => ({...prevSettings, waves: newWaves}));
 
     const duration = MMSSfromSeconds(audioBuffer.duration)
-    setAudioDurationString(duration)
-    setAudioName(file.name)
-    setAudio(file)
+    let reader = new FileReader();
+    reader.onload = () => {
+        setCurrentSettings(prevSettings =>({
+            ...prevSettings,
+            audioDurationString: duration,
+            audioName: file.name,
+            audio: reader.result
+        }))
+    }
+    reader.readAsDataURL(file);
+    console.log(file);
+    
   }
+
 
   const MMSSfromSeconds = (fullSeconds) => {
     const intSeconds = Math.round(fullSeconds)
@@ -72,7 +93,7 @@ const NewPodcast = ({id, go, currentSettings}) => {
           padding: 0
         }}>
           <Div className='NewPodcast__imageOverlay'>
-            {!imageSrc ? <File
+            {!currentSettings.imgSrc ? <File
                 tabIndex={0}
                 mode='overlay_primary'
                 className='cover-input'
@@ -87,7 +108,7 @@ const NewPodcast = ({id, go, currentSettings}) => {
               </File>
               :
               <img className='NewPodcast__image'
-                   src={imageSrc}
+                   src={currentSettings.imgSrc}
                    alt='Обложкаф'
                    onClick={handleImageDelete}
               />
@@ -99,8 +120,13 @@ const NewPodcast = ({id, go, currentSettings}) => {
                 top='Название'
                 placeholder='Введите название подкаста'
                 className='NewPodcast__name'
-                value={podcastName}
-                onChange={(event) => setPodcastName(event.target.value)}
+                value={currentSettings.podcastName}
+                onChange={(event) => {
+                    event.persist()
+                    setCurrentSettings(prevSettings => ({
+                    ...prevSettings,
+                    podcastName: event.target.value
+                }))}}
               />
             </FormLayout>
           </Div>
@@ -108,12 +134,16 @@ const NewPodcast = ({id, go, currentSettings}) => {
         </Div>
       </FormLayout>
       <FormLayout>
-        <Textarea value={podcastDescription} onChange={(event) => setPodcastDescription(event.target.value)}
+        <Textarea value={currentSettings.podcastDescription} onChange={(event) => { event.persist(); setCurrentSettings( prevSettings => ({
+                ...prevSettings,
+                podcastDescription: event.target.value
+            })
+            )}}
                   top="Описание подкаста"/>
       </FormLayout>
 
       {
-        !audio ? <Placeholder
+        !currentSettings.audio ? <Placeholder
             header="Загрузите Ваш подкаст"
             className="NewPodcast__placeholder"
             action={<File style={{cursor: 'pointer'}} tabIndex={0} accept='audio/*' onChange={handleAudioUpload}
@@ -133,12 +163,12 @@ const NewPodcast = ({id, go, currentSettings}) => {
               }}>
                 <Icon28PodcastOutline/>
               </Card>}
-                  asideContent={audioDurationString}>{audioName}</Cell>
+                  asideContent={currentSettings.audioDurationString}>{currentSettings.audioName}</Cell>
             <Caption level='1' className='' weight="regular" style={{color: '#818C99', marginTop: '10px'}}>Вы можете
               добавить
               таймкоды и скорректировать подкаст в режиме редактирования</Caption>
 
-            <Button size={'xl'} mode={'outline'} style={{marginTop: '18px'}}>Редактировать аудиозапись</Button>
+            <Button size={'xl'} mode={'outline'} style={{marginTop: '18px'}} onClick={go} data-to='edit-audio'>Редактировать аудиозапись</Button>
           </Div>
       }
 
@@ -161,7 +191,7 @@ const NewPodcast = ({id, go, currentSettings}) => {
       </Div>
       <Div style={{flexGrow: 1, padding: 0}}></Div>
       <Div>
-        <Button disabled={!imageSrc || !podcastName || !podcastDescription || !audio} data-to='edit-audio' onClick={go}
+        <Button disabled={!currentSettings.imgSrc || !currentSettings.podcastName || !currentSettings.podcastDescription || !currentSettings.audio} 
                 size="xl"
                 mode="primary">Далее</Button>
       </Div>
