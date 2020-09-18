@@ -7,9 +7,10 @@ import NewPodcast from 'panels/NewPodcast'
 import EditAudio from './panels/EditAudio';
 import SliderTest from './panels/SliderTest'
 import DoubleSliderTest from './panels/DoubleSliderTest'
+import AddMusic from './panels/AddMusic'
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('home');
+	const [activePanel, setActivePanel] = useState('add-music');
 	const [currentSettings, setCurrentSettings] = useState({
 		audioName: 'Михаил Круг.mp3',
 		audioDurationString: '59:41',
@@ -22,15 +23,16 @@ const App = () => {
 	return (
 		<View activePanel={activePanel} >
 			<Home id='home' go={go}/>
-			<NewPodcast 
-				id='new-podcast' 
-				go={go} 
+			<NewPodcast
+				id='new-podcast'
+				go={go}
 				currentSettings={currentSettings}
 				setCurrentSettings={setCurrentSettings}
 			/>
 			<EditAudio id='edit-audio' audioSrc={currentSettings.audio} waves={currentSettings.waves}/>
 			<SliderTest id='slider-test' go={go}/>
 			<DoubleSliderTest id='double-slider-test' go={go}/>
+			<AddMusic id='add-music' go={go}/>
 		</View>
 	);
 }
