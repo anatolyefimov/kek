@@ -1,13 +1,10 @@
-import LoadingSpinner from 'views/components/LoadingSpinner'
+import {SpinnerCircular} from 'spinners-react'
 import React from 'react'
-import './style.css'
 
-const LoadingSpinnerBlur = (props) => {
+const LoadingSpinner = (props) => {
   return (
-    <div className={`LoadingSpinnerBlur ${props.className}`}>
-      <LoadingSpinner className={'LoadingSpinnerBlur__Spinner'} color="#3858ad" size={60} speed={116} thickness={180}/>
-    </div>
+    <SpinnerCircular className={props.className} color="#3858ad" size={60} speed={116} thickness={180}/>
   )
 }
 
-export default LoadingSpinnerBlur
+export default LoadingSpinner
