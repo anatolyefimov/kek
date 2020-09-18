@@ -29,7 +29,8 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
   console.log('audioSrc')
   // console.log(audioSrc)
   let timeUpdate = (e) => {
-    if (audioNode.current.currenTime) {
+      console.log(audioNode.current.currentTime  || audioNode.current.currentTime === 0)
+    if (audioNode.current.currentTime  || audioNode.current.currentTime === 0) {
         console.log(audioNode.current.duration)
         setCurrentTime(e.target.currentTime / audioNode.current.duration * 100);
     }
@@ -37,13 +38,13 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
 
 
 
-  timeUpdate = throttle(timeUpdate, 100000)
+  timeUpdate = throttle(timeUpdate, 1000)
   useEffect(() => {
     audioNode.current.addEventListener('timeupdate', timeUpdate)
   })
 
   const onRangeChange = (event) => {
-      if (audioNode.current.currenTime) {
+      if (audioNode.current.currentTime || audioNode.current.currentTime === 0) {
         console.log(audioNode.current.duration)
         audioNode.current.currentTime = audioNode.current.duration * event.target.value / 100;
 
@@ -144,7 +145,7 @@ const EditAudio = ({id, audioSrc, waves, go, setCurrentSettings}) => {
                     </Button>
                     <Button
                         className='toolbar__button'
-                        //onClick={cutAudio}
+                        onClick={cutAudio}
                         mode='secondary'
                     >
                         <Scissors/>
