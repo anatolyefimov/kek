@@ -14,6 +14,9 @@ import Icon24Play from '@vkontakte/icons/dist/24/play';
 import Icon24Pause from '@vkontakte/icons/dist/24/pause';
 
 import throttle from 'utils/throttle';
+import convertDataURIToBinary from 'utils/convertDataURIToBinary'
+import trimAudio from 'api/trimAudio' 
+
 
 import './EditAudio.css';
 
@@ -27,8 +30,11 @@ const EditAudio = ({ id, audioSrc, waves }) => {
     // let source = audioCtx.createBufferSource();
 
     let timeUpdate = (e) => {
+        console.log(audioNode.current.duration )
         setCurrentTime(e.target.currentTime / audioNode.current.duration * 100);
     }
+
+    
 
     timeUpdate = throttle(timeUpdate, 100000)
     useEffect(() => {
@@ -43,18 +49,10 @@ const EditAudio = ({ id, audioSrc, waves }) => {
     }
 
     const cutAudio = async (start, finish) => {
-        console.log(audiofile)
-        const arrayBuffer = await audiofile.arrayBuffer();
-        console.log(arrayBuffer)
-        const audioContext = new AudioContext();
-        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        // const source = audioContext.createBufferSource();
-        // source.buffer = audioBuffer;
-        // source.start(0);
-        // const streamNode = audioContext.createMediaStreamDestination();
-        // source.connect(streamNode);
-
-        // audioNode.current.src = URL.createObjectURL(audioBuffer)
+        let binary = convertDataURIToBinary(audioNode.current.src);
+        var blob=new Blob([binary], {type : 'audio/mp3'});
+        audioNode.current.src = await trimAudio(blob, 'audio.mp3', 5, 10)
+        
     }
 
     const handlePlay = () => {
@@ -129,6 +127,7 @@ const EditAudio = ({ id, audioSrc, waves }) => {
                     </Button>
                     <Button
                         className='toolbar__button'
+                        onClick={cutAudio}
                     >
 
                     </Button>

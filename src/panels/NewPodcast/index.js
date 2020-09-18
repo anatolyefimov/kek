@@ -23,6 +23,9 @@ import Icon56GalleryOutline from '@vkontakte/icons/dist/56/gallery_outline';
 import './NewPodcast.css'
 import { Icon28PodcastOutline } from "@vkontakte/icons";
 
+import trimAudio from 'api/trimAudio';
+
+
 const NewPodcast = ({id, go, setCurrentSettings, currentSettings}) => {
 
   const handleImageChange = event => {
@@ -61,7 +64,8 @@ const NewPodcast = ({id, go, setCurrentSettings, currentSettings}) => {
 
     const duration = MMSSfromSeconds(audioBuffer.duration)
     let reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = (event) => {
+        
         setCurrentSettings(prevSettings =>({
             ...prevSettings,
             audioDurationString: duration,
