@@ -52,7 +52,8 @@ const FinalPreview = ({id, go, currentSettings}) => (
       <Div style={{flexGrow: 1}}/>
       <Div>
       <Button size="xl"
-              mode="primary">Опубликовать подкаст</Button>
+              mode="primary" onClick={go}
+              data-to='final'>Опубликовать подкаст</Button>
       </Div>
 
 
