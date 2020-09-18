@@ -10,13 +10,9 @@ async function trimAudio(blob, filename, left, right) {
         body: formData
       });
   
+    let res = await response.json();
 
-    let reader = response.body.getReader();
-    let result = await reader.read();
-    var blob = new Blob([result.value], { type: 'audio/mp3' });
-    let url = window.URL.createObjectURL(blob)
-    console.log(url);
-    return url
+    return 'http://ec2-18-192-103-136.eu-central-1.compute.amazonaws.com:3001/audios/' + res.fileName
 }
 
 export default trimAudio;

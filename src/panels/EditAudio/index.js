@@ -6,12 +6,14 @@ import "nouislider/distribute/nouislider.css";
 import { 
 	Panel, 
     PanelHeader, 
+    PanelHeaderBack,
     Div,
     Button
 } from '@vkontakte/vkui';
 
 import Icon24Play from '@vkontakte/icons/dist/24/play';
 import Icon24Pause from '@vkontakte/icons/dist/24/pause';
+import { ReactComponent as Scissors } from 'img/scissors 1.svg'
 
 import throttle from 'utils/throttle';
 import convertDataURIToBinary from 'utils/convertDataURIToBinary'
@@ -20,7 +22,7 @@ import trimAudio from 'api/trimAudio'
 
 import './EditAudio.css';
 
-const EditAudio = ({ id, audioSrc, waves }) => {
+const EditAudio = ({ id, audioSrc, waves, go }) => {
     const audioNode = useRef();
     const progressBar = useRef();
     const [currenTime, setCurrentTime] = useState(0);
@@ -52,6 +54,9 @@ const EditAudio = ({ id, audioSrc, waves }) => {
         let binary = convertDataURIToBinary(audioNode.current.src);
         var blob=new Blob([binary], {type : 'audio/mp3'});
         audioNode.current.src = await trimAudio(blob, 'audio.mp3', 5, 10)
+        audioNode.current.pause();
+        audioNode.current.currenTime = 0;
+
         
     }
 
@@ -68,7 +73,9 @@ const EditAudio = ({ id, audioSrc, waves }) => {
 
     return (
         <Panel id={id}>
-            <PanelHeader>Редактирование</PanelHeader>
+            <PanelHeader left={<PanelHeaderBack onClick={go} data-to='new-podcast'/>} >
+                Редактирование
+            </PanelHeader>
             <audio ref={audioNode} id='audio' src={audioSrc}>
 
                 Your browser does not support the audio element.
@@ -129,7 +136,7 @@ const EditAudio = ({ id, audioSrc, waves }) => {
                         className='toolbar__button'
                         onClick={cutAudio}
                     >
-
+                        <Scissors color='white' fill='white' style={{color:'white'}}/>
                     </Button>
                 </div>
                     
